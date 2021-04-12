@@ -35,6 +35,8 @@ public class Main {
 
             DAO database = new DAO(statement);
             database.findById(2);
+            database.findALl();
+
 
 
             ///// METHOD CALLS //////

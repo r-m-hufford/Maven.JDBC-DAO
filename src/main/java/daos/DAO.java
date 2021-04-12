@@ -3,6 +3,7 @@ package daos;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DAO<T> implements DAOInterface<T>{
@@ -24,7 +25,6 @@ public class DAO<T> implements DAOInterface<T>{
                 dto.setLastName(rs.getString("last_name"));
             }
         }
-        System.out.println(dto.toString());
         return (T) dto;
         //before while create a new DTO and loop through responses
         //
@@ -32,15 +32,18 @@ public class DAO<T> implements DAOInterface<T>{
     }
 
     public List findALl() throws SQLException {
+        List<DTO> entries = new ArrayList<DTO>();
+
         ResultSet rs = statement.executeQuery("SELECT * FROM players");
         rs.beforeFirst();
         while(rs.next()) {
-            System.out.print("ID: " + rs.getInt("id"));
-            System.out.print(", FirstName: " + rs.getString("first_name"));
-            System.out.println(", LastName: " + rs.getString("last_name"));
+            DTO entry = new DTO();
+            entry.setID(rs.getInt("id"));
+            entry.setFirstName(rs.getString("first_name"));
+            entry.setLastName(rs.getString("last_name"));
+            entries.add(entry);
         }
-        return null;
-
+        return entries;
     }
 
     public T update(T dto) {
