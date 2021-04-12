@@ -14,7 +14,7 @@ public class DAO<T> implements DAOInterface<T>{
         this.statement = statement;
     }
 
-    public T findById(int id) throws SQLException {
+    public DTO findById(int id) throws SQLException {
         DTO dto = new DTO();
         ResultSet rs = statement.executeQuery("SELECT * FROM players WHERE id = " + id);
         rs.beforeFirst();
@@ -25,7 +25,7 @@ public class DAO<T> implements DAOInterface<T>{
                 dto.setLastName(rs.getString("last_name"));
             }
         }
-        return (T) dto;
+        return dto;
         //before while create a new DTO and loop through responses
         //
 
@@ -46,11 +46,26 @@ public class DAO<T> implements DAOInterface<T>{
         return entries;
     }
 
-    public T update(T dto) {
+    public DTO update(DTO dto) throws SQLException {
+        ResultSet rs = statement.executeQuery("SELECT * FROM players WHERE id = " + dto.getID());
+        while(rs.next()) {
+            String newLast = rs.getString("last_name") + ".";
+            rs.updateString( "last_name", newLast );
+            rs.updateRow();
+        }
+        System.out.println();
+        rs.beforeFirst();
+        while(rs.next()) {
+            System.out.print("ID: " + rs.getInt("id"));
+            System.out.print(", FirstName: " + rs.getString("first_name"));
+            System.out.println(", LastName: " + rs.getString("last_name"));
+        }
+
         return null;
     }
 
-    public T create(T dto) {
+
+    public DTO create(DTO dto) {
         return null;
     }
 

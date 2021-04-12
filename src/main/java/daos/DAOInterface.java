@@ -5,13 +5,13 @@ import java.util.List;
 
 public interface DAOInterface<T> {
 
-    public T findById(int id) throws SQLException;
+    public DTO findById(int id) throws SQLException;
 
     public List findALl() throws SQLException;
 
-    public T update(T dto);
+    public DTO update(DTO dto) throws SQLException;
 
-    public T create(T dto);
+    public DTO create(DTO dto);
 
     public void delete(int id);
 }
